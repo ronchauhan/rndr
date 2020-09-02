@@ -7,11 +7,13 @@
 //----------------------------------------------------------------------------//
 
 #include "rndr/Vec3.h"
+#include "rndr/Mat3.h"
 #include <cassert>
 #include <iostream>
 
 int main() {
   using Vec3f = rndr::Vec3f;
+  using Mat3f = rndr::Mat3f;
 
   Vec3f V1(2.0f, 4.0f, 5.0f);
   Vec3f V2;
@@ -65,6 +67,11 @@ int main() {
   V1 = Vec3f(0.5f, 0.3f, 0.09f);
   V1.normalizeThis();
   assert(1 - V1.getLength() < 0.0000001);
+
+  // Matrix-vector multiplication (row-major form).
+  V1 = Vec3f(1, 2, 1);
+  Mat3f M1({1, 3, 2}, {-1, 0, 2}, {3, 1, -1});
+  assert(M1 * V1 == V1 * M1.getTranspose());
 
   // Dot and cross products.
   V1 = Vec3f(2.0f, 4.0f, 5.0f);

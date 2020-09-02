@@ -16,6 +16,8 @@
 
 namespace rndr {
 
+template <typename T> class Mat3;
+
 template <typename T> class Vec3 {
   T x = (T(0)), y = (T(0)), z = (T(0));
 
@@ -60,6 +62,9 @@ public:
   Vec3<T> operator=(const Vec3<T> &other);
   bool operator==(const Vec3<T> &other) const;
   bool operator!=(const Vec3<T> &other) const;
+
+  // Matrix-vector multiplication (row-major form).
+  Vec3<T> operator*(const Mat3<T> &M) const;
 
   T dot(const Vec3<T> &other) const;
   Vec3<T> cross(const Vec3<T> &other) const;
@@ -142,6 +147,12 @@ template <typename T> bool Vec3<T>::operator==(const Vec3<T> &other) const {
 
 template <typename T> bool Vec3<T>::operator!=(const Vec3<T> &other) const {
   return !(*this == other);
+}
+
+template <typename T> Vec3<T> Vec3<T>::operator*(const Mat3<T> &M) const {
+  return Vec3<T>(M[0][0] * x + M[1][0] * y + M[2][0] * z,
+                 M[0][1] * x + M[1][1] * y + M[2][1] * z,
+                 M[0][2] * x + M[1][2] * y + M[2][2] * z);
 }
 
 template <typename T> T Vec3<T>::dot(const Vec3<T> &other) const {
